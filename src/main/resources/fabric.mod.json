@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "zenithproxy",
+	"version": "${version}",
+	"name": "ZenithProxy Mod",
+	"description": "ZenithProxy client integrations",
+	"authors": [
+		"rfresh2"
+	],
+	"license": "MIT",
+	"icon": "assets/zenithproxy/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"client": [
+			"com.zenith.ZenithProxyMod"
+		]
+	},
+	"mixins": [
+		"zenithproxy.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.2",
+		"java": ">=21"
+	}
+}
