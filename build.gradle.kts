@@ -24,12 +24,12 @@ loom {
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft("com.mojang:minecraft:${project.properties["minecraft_version"] as String}")
+	minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
 	mappings(loom.layered {
 		officialMojangMappings()
 		parchment("org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip")
 	})
-	modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"] as String}")
+	modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
 }
 
 tasks {
@@ -47,6 +47,9 @@ tasks {
 		from("LICENSE") {
 			rename { "${it}_${project.base.archivesName.get()}" }
 		}
+	}
+	remapJar {
+		archiveVersion = "${project.properties["mod_version"]}+fabric-${project.properties["minecraft_version"]}"
 	}
 }
 
