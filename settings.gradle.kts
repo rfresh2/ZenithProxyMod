@@ -6,4 +6,4 @@ pluginManagement {
 	}
 }
 
-rootProject.name = "ZenithProxy-Mod"
+rootProject.name = "ZenithProxyMod"
