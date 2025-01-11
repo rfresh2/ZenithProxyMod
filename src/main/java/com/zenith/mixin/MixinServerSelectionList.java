@@ -9,6 +9,7 @@ import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.TransferState;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -98,7 +99,7 @@ public abstract class MixinServerSelectionList extends ObjectSelectionList<Serve
             int buttonBoundTop = getButtonBoundTop(top);
             int buttonBoundBottom = getButtonBoundBottom(top);
             boolean zHovering = isHoveringOverButton(mouseX, mouseY, buttonBoundLeft, buttonBoundRight, buttonBoundTop, buttonBoundBottom);
-            guiGraphics.blitSprite(zHovering
+            guiGraphics.blitSprite(RenderType::guiTextured, zHovering
                                        ? ServerSelectionList.JOIN_HIGHLIGHTED_SPRITE
                                        : ServerSelectionList.JOIN_SPRITE,
                                    buttonBoundLeft, buttonBoundTop, buttonWidth, buttonHeight);
