@@ -20,6 +20,11 @@ repositories {
 
 loom {
 	accessWidenerPath = file("src/main/resources/zenithproxy.accesswidener")
+	runs {
+		this.getByName("client") {
+			this.client()
+		}
+	}
 }
 
 dependencies {
