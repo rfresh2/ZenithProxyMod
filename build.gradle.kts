@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.9-SNAPSHOT"
+	id("fabric-loom") version "1.10-SNAPSHOT"
 }
 
 version = project.properties["mod_version"] as String
@@ -16,10 +16,18 @@ repositories {
 			includeGroup("org.parchmentmc.data")
 		}
 	}
+	maven("https://api.modrinth.com/maven") {
+		name = "Modrinth"
+	}
 }
 
 loom {
 	accessWidenerPath = file("src/main/resources/zenithproxy.accesswidener")
+	runs {
+		getByName("client") {
+			client()
+		}
+	}
 }
 
 dependencies {
@@ -27,9 +35,11 @@ dependencies {
 	minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
 	mappings(loom.layered {
 		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.3:2024.12.07@zip")
+		parchment("org.parchmentmc.data:parchment-1.21.4:2025.03.23@zip")
 	})
 	modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
+	modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
+	modRuntimeOnly("maven.modrinth:modmenu:13.0.3")
 }
 
 tasks {
