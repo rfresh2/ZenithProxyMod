@@ -1,10 +1,7 @@
-name: Build
+name: Release
 
 on:
-  pull_request:
-  push:
-    branches:
-      - "1.21.4"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -34,3 +31,15 @@ jobs:
           name: ZenithProxyMod
           path: build/libs/*.jar
           if-no-files-found: error
+
+      - name: Get Version
+        run: echo "MOD_VERSION=$(./gradlew -q printVersion)" >> $GITHUB_ENV
+
+      - name: Github Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ env.MOD_VERSION }}
+          artifacts: "build/libs/*.jar"
+          allowUpdates: true
+          makeLatest: true
+          omitBodyDuringUpdate: true
