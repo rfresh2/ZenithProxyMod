@@ -11,3 +11,11 @@ Adds a button to the server list GUI for ZenithProxy servers that allows you to 
 <p align="center">
   <img src="https://i.imgur.com/DEGg1GV.png">
 </p>
+
+## Disconnect ZenithProxy Button
+
+Adds a button to the escape menu that sends `/disconnect` command, making the ZenithProxy account also disconnect.
+
+<p align="center">
+  <img src="https://i.imgur.com/uTGQ6Xp.png">
+</p>
