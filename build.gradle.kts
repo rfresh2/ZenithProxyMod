@@ -61,6 +61,11 @@ tasks {
 	remapJar {
 		archiveVersion = "${project.properties["mod_version"]}+fabric-${project.properties["minecraft_version"]}"
 	}
+	register("printVersion") {
+		doLast {
+			println("${project.properties["mod_version"]}")
+		}
+	}
 }
 
 java {
