@@ -12,10 +12,14 @@ Adds a button to the server list GUI for ZenithProxy servers that allows you to 
   <img src="https://i.imgur.com/DEGg1GV.png">
 </p>
 
-## Disconnect ZenithProxy Button
+## Disconnect And Spectator Swap Buttons
 
-Adds a button to the escape menu that sends `/disconnect` command, making the ZenithProxy account also disconnect.
+Adds a button to the escape menu that sends `/disconnect` or `/swap` commands
+
+`/disconnect` makes the ZenithProxy account also disconnect.
+
+`/swap` makes the ZenithProxy instance swap you into spectator mode
 
 <p align="center">
-  <img src="https://i.imgur.com/uTGQ6Xp.png">
+  <img src="https://i.imgur.com/VBAAa1J.png">
 </p>
