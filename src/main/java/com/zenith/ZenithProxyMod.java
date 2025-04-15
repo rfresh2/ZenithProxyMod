@@ -32,6 +32,12 @@ public class ZenithProxyMod implements ClientModInitializer {
         mc.player.connection.sendUnsignedCommand("disconnect");
     }
 
+    public static void swapSpectatorMode() {
+        var mc = Minecraft.getInstance();
+        if (mc.player == null) return;
+        mc.player.connection.sendUnsignedCommand("swap");
+    }
+
     @Override
     public void onInitializeClient() {
 

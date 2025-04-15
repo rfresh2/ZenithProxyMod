@@ -20,9 +20,13 @@ public class MixinPauseScreen {
     ))
     public void createPauseMenu(final CallbackInfo ci, @Local GridLayout gridLayout, @Local GridLayout.RowHelper rowHelper) {
         if (!ZenithProxyMod.onZenithServer()) return;
-        rowHelper.addChild(Button.builder(Component.literal("Disconnect ZenithProxy"), button -> {
+        rowHelper.addChild(Button.builder(Component.literal("DC ZenithProxy"), button -> {
             button.active = false;
             ZenithProxyMod.fullDisconnect();
-        }).width(204).build(), 2);
+        }).width(98).build());
+        rowHelper.addChild(Button.builder(Component.literal("Spectator Swap"), button -> {
+            button.active = false;
+            ZenithProxyMod.swapSpectatorMode();
+        }).width(98).build());
     }
 }
