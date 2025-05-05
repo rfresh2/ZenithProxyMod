@@ -23,3 +23,19 @@ Adds a button to the escape menu that sends `/disconnect` or `/swap` commands
 <p align="center">
   <img src="https://i.imgur.com/VBAAa1J.png">
 </p>
+
+## Web API Commands
+
+**Requires [ZenithProxyWebAPI](https://github.com/rfresh2/ZenithProxyWebAPI)**
+
+Sends commands to a ZenithProxy instance over the internet.
+
+For example, using `pearlLoader load` to make another bot load your pearl.
+
+`/api add <id> <ip> <token>` -> Add a web API. The ip should include the port. You may need to enclose arguments in quotes. like `"localhost:8080"`
+
+`/api del <id>` -> Remove a web API
+
+`/api list` -> List all web API's
+
+`/api command <id> <command>` -> Send a command

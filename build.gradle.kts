@@ -38,7 +38,7 @@ dependencies {
 		parchment("org.parchmentmc.data:parchment-1.21.4:2025.03.23@zip")
 	})
 	modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
-	modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
 	modRuntimeOnly("maven.modrinth:modmenu:13.0.3")
 }
 
