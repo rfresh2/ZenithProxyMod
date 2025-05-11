@@ -2,8 +2,10 @@ package com.zenith.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.zenith.ZenithProxyMod;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.layouts.SpacerElement;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,6 +22,10 @@ public class MixinPauseScreen {
     ))
     public void createPauseMenu(final CallbackInfo ci, @Local GridLayout gridLayout, @Local GridLayout.RowHelper rowHelper) {
         if (!ZenithProxyMod.onZenithServer()) return;
+        if (FabricLoader.getInstance().isModLoaded("replaymod")) {
+            // stupid replaymod not using the grid layout row builder
+            rowHelper.addChild(new SpacerElement(98, Button.DEFAULT_HEIGHT), 2);
+        }
         rowHelper.addChild(Button.builder(Component.literal("DC ZenithProxy"), button -> {
             button.active = false;
             ZenithProxyMod.fullDisconnect();
