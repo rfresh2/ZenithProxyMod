@@ -108,8 +108,16 @@ public class ZenithProxyMod implements ClientModInitializer {
                         ForkJoinPool.commonPool().execute(() -> {
                             try {
                                 CommandResponse response = WebAPI.INSTANCE.execute(command, ip, token);
-                                var component = Component.Serializer.fromJson(response.embedComponent(), Minecraft.getInstance().player.registryAccess());
-                                c.getSource().sendFeedback(component);
+                                if (response.embedComponent() != null) {
+                                    var component = Component.Serializer.fromJson(response.embedComponent(), Minecraft.getInstance().player.registryAccess());
+                                    c.getSource().sendFeedback(component);
+                                } else if (response.multiLineOutput() != null && !response.multiLineOutput().isEmpty()) {
+                                    for (String line : response.multiLineOutput()) {
+                                        c.getSource().sendFeedback(Component.literal(line));
+                                    }
+                                } else {
+                                    c.getSource().sendFeedback(Component.literal("Invalid command"));
+                                }
                             } catch (Exception e) {
                                 LOG.error("Error executing WebAPI command: {}", command, e);
                                 c.getSource().sendFeedback(Component.literal("Error: " + e.getClass().getSimpleName() + e.getMessage()));
