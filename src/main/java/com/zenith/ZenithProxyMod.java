@@ -6,7 +6,6 @@ import com.zenith.web.model.CommandResponse;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.GameType;
 import org.slf4j.Logger;
@@ -32,11 +31,16 @@ public class ZenithProxyMod implements ClientModInitializer {
 
     public static boolean onZenithServer() {
         var mc = Minecraft.getInstance();
-        ServerData currentServer = mc.getCurrentServer();
-        if (currentServer == null) return false;
-        String serverVersionStr = currentServer.version.tryCollapseToString();
-        if (serverVersionStr == null) return false;
-        return serverVersionStr.startsWith("ZenithProxy");
+        var connection = mc.getConnection();
+        if (connection == null) return false;
+        String brandString = connection.serverBrand();
+        if (brandString == null) {
+            var currentServer = mc.getCurrentServer();
+            if (currentServer == null) return false;
+            brandString = currentServer.version.tryCollapseToString();
+            if (brandString == null) return false;
+        }
+        return brandString.contains("ZenithProxy");
     }
 
     public static void fullDisconnect() {
