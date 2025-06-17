@@ -1,12 +1,18 @@
 package com.zenith;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
 import com.zenith.config.Config;
 import com.zenith.web.WebAPI;
 import com.zenith.web.model.CommandResponse;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.world.level.GameType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +52,13 @@ public class ZenithProxyMod implements ClientModInitializer {
     public static void fullDisconnect() {
         var mc = Minecraft.getInstance();
         if (mc.player == null) return;
-        mc.player.connection.sendUnsignedCommand("disconnect");
+        mc.player.connection.sendCommand("disconnect");
     }
 
     public static void swapSpectatorMode() {
         var mc = Minecraft.getInstance();
         if (mc.player == null) return;
-        mc.player.connection.sendUnsignedCommand("swap");
+        mc.player.connection.sendCommand("swap");
     }
 
     @Override
@@ -113,7 +119,7 @@ public class ZenithProxyMod implements ClientModInitializer {
                             try {
                                 CommandResponse response = WebAPI.INSTANCE.execute(command, ip, token);
                                 if (response.embedComponent() != null) {
-                                    var component = Component.Serializer.fromJson(response.embedComponent(), Minecraft.getInstance().player.registryAccess());
+                                    var component = deserializeComponent(response.embedComponent(), Minecraft.getInstance().player.registryAccess());
                                     c.getSource().sendFeedback(component);
                                 } else if (response.multiLineOutput() != null && !response.multiLineOutput().isEmpty()) {
                                     for (String line : response.multiLineOutput()) {
@@ -130,5 +136,17 @@ public class ZenithProxyMod implements ClientModInitializer {
                         return 1;
                     })))));
         });
+    }
+
+    private static Component deserializeComponent(String json, HolderLookup.Provider provider) {
+        try {
+            JsonElement jsonElement = JsonParser.parseString(json);
+            return ComponentSerialization.CODEC
+                .parse(provider.createSerializationContext(JsonOps.INSTANCE), jsonElement)
+                .getOrThrow(JsonParseException::new);
+        } catch (Exception e) {
+            LOG.error("Failed to deserialize component from JSON: {}", json, e);
+            return Component.literal("Error: " + e.getClass().getSimpleName() + " " + e.getMessage());
+        }
     }
 }
