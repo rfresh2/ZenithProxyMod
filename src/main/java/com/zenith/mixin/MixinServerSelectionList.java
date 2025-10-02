@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.ObjectSelectionList;
 import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.multiplayer.ServerSelectionList;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.TransferState;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
@@ -17,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +40,11 @@ public abstract class MixinServerSelectionList extends ObjectSelectionList<Serve
     }
 
     @Override
-    public boolean mouseClicked(final double mouseX, final double mouseY, final int button) {
-        if (button == 0 && handleMouseClick(mouseX, mouseY, button)) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0 && handleMouseClick(event.x(), event.y(), event.button())) {
             return true;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubleClick);
     }
 
     @Unique
@@ -70,7 +72,7 @@ public abstract class MixinServerSelectionList extends ObjectSelectionList<Serve
             Map<ResourceLocation, byte[]> cookies = new HashMap<>();
             cookies.put(COOKIE_KEY_TRANSFER_SRC, serverData.ip.getBytes(StandardCharsets.UTF_8));
             cookies.put(COOKIE_KEY_SPECTATOR, String.valueOf(true).getBytes(StandardCharsets.UTF_8));
-            TransferState transferState = new TransferState(cookies);
+            TransferState transferState = new TransferState(cookies, Collections.emptyMap(), true);
             ConnectScreen.startConnecting(this.screen, this.minecraft, ServerAddress.parseString(serverData.ip), serverData, false, transferState);
             return true;
         }
