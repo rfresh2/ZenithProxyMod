@@ -21,8 +21,8 @@ import java.util.concurrent.ForkJoinPool;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.*;
 import static com.zenith.config.Config.WebApiInstance;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
-import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal;
 
 public class ZenithProxyMod implements ClientModInitializer {
     public static final Logger LOG = LoggerFactory.getLogger("ZenithProxy");

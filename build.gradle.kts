@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.14-SNAPSHOT"
+	id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT"
 }
 
 version = project.properties["mod_version"] as String
@@ -33,12 +33,8 @@ loom {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
-	mappings(loom.layered {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.9:2025.10.05@zip")
-	})
-	modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
+	implementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
+    implementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
 //	modRuntimeOnly("maven.modrinth:modmenu:13.0.3")
 }
 
@@ -54,12 +50,10 @@ tasks {
 		options.release = 21
 	}
 	jar {
+		archiveVersion = "${project.properties["mod_version"]}+fabric-${project.properties["minecraft_version"]}"
 		from("LICENSE") {
 			rename { "${it}_${project.base.archivesName.get()}" }
 		}
-	}
-	remapJar {
-		archiveVersion = "${project.properties["mod_version"]}+fabric-${project.properties["minecraft_version"]}"
 	}
 	register("printVersion") {
 		doLast {
@@ -69,6 +63,6 @@ tasks {
 }
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
