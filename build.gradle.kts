@@ -9,18 +9,6 @@ base {
 	archivesName = project.properties["archives_base_name"] as String
 }
 
-
-repositories {
-	maven("https://maven.parchmentmc.org") {
-		content {
-			includeGroup("org.parchmentmc.data")
-		}
-	}
-	maven("https://api.modrinth.com/maven") {
-		name = "Modrinth"
-	}
-}
-
 loom {
 	accessWidenerPath = file("src/main/resources/zenithproxy.accesswidener")
 	runs {
@@ -35,7 +23,6 @@ dependencies {
 	minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
 	implementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
     implementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
-//	modRuntimeOnly("maven.modrinth:modmenu:13.0.3")
 }
 
 tasks {
@@ -47,7 +34,7 @@ tasks {
 		}
 	}
 	withType(JavaCompile::class.java).configureEach {
-		options.release = 21
+		options.release = 25
 	}
 	jar {
 		archiveVersion = "${project.properties["mod_version"]}+fabric-${project.properties["minecraft_version"]}"
