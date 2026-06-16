@@ -11,7 +11,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.TransferState;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,8 +26,8 @@ import java.util.Map;
 @Mixin(ServerSelectionList.class)
 public abstract class MixinServerSelectionList extends ObjectSelectionList<ServerSelectionList.Entry> {
 
-    @Unique private static final ResourceLocation COOKIE_KEY_TRANSFER_SRC = ResourceLocation.tryBuild("zenith", "zenith-transfer-src");
-    @Unique private static final ResourceLocation COOKIE_KEY_SPECTATOR = ResourceLocation.tryBuild("zenith", "zenith-spectator");
+    @Unique private static final Identifier COOKIE_KEY_TRANSFER_SRC = Identifier.tryBuild("zenith", "zenith-transfer-src");
+    @Unique private static final Identifier COOKIE_KEY_SPECTATOR = Identifier.tryBuild("zenith", "zenith-spectator");
     @Final @Shadow private JoinMultiplayerScreen screen;
     @Unique final int buttonWidth = 32;
     @Unique final int buttonHeight = 32;
@@ -69,7 +69,7 @@ public abstract class MixinServerSelectionList extends ObjectSelectionList<Serve
             int buttonBoundBottom = getButtonBoundBottom(top);
             boolean zHovering = isHoveringOverButton((int) mouseX, (int) mouseY, buttonBoundLeft, buttonBoundRight, buttonBoundTop, buttonBoundBottom);
             if (!zHovering) continue;
-            Map<ResourceLocation, byte[]> cookies = new HashMap<>();
+            Map<Identifier, byte[]> cookies = new HashMap<>();
             cookies.put(COOKIE_KEY_TRANSFER_SRC, serverData.ip.getBytes(StandardCharsets.UTF_8));
             cookies.put(COOKIE_KEY_SPECTATOR, String.valueOf(true).getBytes(StandardCharsets.UTF_8));
             TransferState transferState = new TransferState(cookies, Collections.emptyMap(), true);

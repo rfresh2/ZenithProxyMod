@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.16-SNAPSHOT"
+	id("fabric-loom") version "1.17-SNAPSHOT"
 }
 
 val minecraft_version = project.properties["minecraft_version"] as String

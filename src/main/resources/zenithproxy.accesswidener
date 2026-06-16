@@ -1,3 +1,3 @@
 accessWidener v2 named
-accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList JOIN_SPRITE Lnet/minecraft/resources/ResourceLocation;
-accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList JOIN_HIGHLIGHTED_SPRITE Lnet/minecraft/resources/ResourceLocation;
+accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList JOIN_SPRITE Lnet/minecraft/resources/Identifier;
+accessible field net/minecraft/client/gui/screens/multiplayer/ServerSelectionList JOIN_HIGHLIGHTED_SPRITE Lnet/minecraft/resources/Identifier;
