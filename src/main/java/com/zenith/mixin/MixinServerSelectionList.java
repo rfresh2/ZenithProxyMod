@@ -12,6 +12,7 @@ import net.minecraft.client.multiplayer.TransferState;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
+import org.lwjgl.sdl.SDLMouse;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -41,7 +42,7 @@ public abstract class MixinServerSelectionList extends ObjectSelectionList<Serve
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0 && handleMouseClick(event.x(), event.y(), event.button())) {
+        if (event.button() == SDLMouse.SDL_BUTTON_LEFT && handleMouseClick(event.x(), event.y(), event.button())) {
             return true;
         }
         return super.mouseClicked(event, doubleClick);
