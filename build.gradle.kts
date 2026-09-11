@@ -2,15 +2,18 @@ plugins {
 	id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
 }
 
-val minecraft_version = project.properties["minecraft_version"] as String
-val loader_version = project.properties["loader_version"] as String
-val fabricApiVersion = project.properties["fabric_version"] as String
-val modmenuVersion = project.properties["modmenu_version"] as String
-version = project.properties["mod_version"] as String
-group = project.properties["maven_group"] as String
+val minecraft_version = property("minecraft_version") as String
+val loader_version = property("loader_version") as String
+val fabric_api_version = property("fabric_version") as String
+val modmenu_version = property("modmenu_version") as String
+val mod_version = property("mod_version") as String
+val maven_group = property("maven_group") as String
+val archives_base_name = property("archives_base_name") as String
+version = mod_version
+group = property("maven_group") as String
 
 base {
-	archivesName = project.properties["archives_base_name"] as String
+	archivesName = archives_base_name
 }
 
 java {
@@ -22,6 +25,9 @@ java {
 repositories {
 	maven("https://api.modrinth.com/maven") {
 		name = "Modrinth"
+		content {
+			includeGroup("maven.modrinth")
+		}
 	}
 }
 
@@ -35,30 +41,29 @@ loom {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${minecraft_version}")
-	implementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
-    implementation("net.fabricmc.fabric-api:fabric-api:${project.properties["fabric_version"]}")
-    runtimeOnly("maven.modrinth:modmenu:$modmenuVersion")
+	implementation("net.fabricmc:fabric-loader:${loader_version}")
+	implementation("net.fabricmc.fabric-api:fabric-api:$fabric_api_version")
+	runtimeOnly("maven.modrinth:modmenu:$modmenu_version")
 }
 
 tasks {
 	processResources {
-		inputs.property("version", version)
+		inputs.property("version", mod_version)
 
 		filesMatching("fabric.mod.json") {
-			expand("version" to version)
+			expand("version" to mod_version)
 		}
 	}
 	jar {
-		archiveVersion = "${project.properties["mod_version"]}+fabric-${minecraft_version}"
+        archiveVersion = "$mod_version+fabric-$minecraft_version"
 		from("LICENSE") {
-			rename { "${it}_${project.base.archivesName.get()}" }
+			rename { "${it}_${archives_base_name}" }
 		}
 	}
 	register("printVersion") {
 		doLast {
-			println("${project.properties["mod_version"]}")
+			println(mod_version)
 		}
 	}
 }
